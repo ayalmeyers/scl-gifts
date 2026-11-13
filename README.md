@@ -31,7 +31,7 @@ Items without photos show a branded placeholder.
 
 Each submission is sent two ways at once:
 
-1. **Excel** — `orderEndpoint` in `js/config.js` is a Power Automate "When an HTTP request is received" flow. It writes one row per item to the `GiftOrders` table in `SCL Gift Orders.xlsx` (SharePoint · OPERATIONS · Documents/General/Gifts).
+1. **Excel (optional direct feed)** — `orderEndpoint` in `js/config.js` is left empty. It can point to a Power Automate "When an HTTP request is received" flow if the org ever allows anonymous triggers; until then the email route below feeds Excel.
 2. **Email** — every order is emailed through FormSubmit to `notifyEmail` (admin@scl.us.com) with a cc to `ccEmails` (ameyers@scl.us.com). The Power Automate flow "SCL Gifts - Orders to Excel" watches the ameyers@ inbox for subject "Gift selection SCL-" and adds one row per item to the GiftOrders table in SharePoint OPERATIONS › General › Gifts › SCL Gift Orders.xlsx.
 
 If both channels fail, the guest sees an error with a pre-filled email link, and their cart and form are kept.
