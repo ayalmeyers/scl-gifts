@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>SCL Gifts · Strategic Communication Lab</title>
+<meta name="description" content="Choose your gift from Strategic Communication Lab." />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#22428f" />
+<meta property="og:title" content="A thank-you from Strategic Communication Lab" />
+<meta property="og:description" content="Choose the gifts you would enjoy most and tell us where to send them." />
+<link rel="icon" href="assets/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+<link rel="stylesheet" href="fonts/fonts.css" />
+<link rel="stylesheet" href="css/store.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#/" aria-label="SCL Gifts home">
+      <img src="assets/logo-lockup.png" alt="Strategic Communication Lab" width="963" height="236" />
+    </a>
+    <span class="brand-tag" id="campaign-tag"></span>
+    <button class="cart-btn" id="cart-btn" type="button" aria-haspopup="dialog" aria-controls="cart">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 8h-3.2A4.8 4.8 0 0 0 12 3.5 4.8 4.8 0 0 0 7.2 8H4a1 1 0 0 0-1 1.1l1.2 10.4A2.7 2.7 0 0 0 6.9 22h10.2a2.7 2.7 0 0 0 2.7-2.5L21 9.1A1 1 0 0 0 20 8Zm-8-2.5A2.8 2.8 0 0 1 14.8 8H9.2A2.8 2.8 0 0 1 12 5.5Z"/></svg>
+      <span class="cart-label">Your selection</span>
+      <span class="cart-count" id="cart-count" aria-live="polite">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <div id="view"></div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <img src="assets/logo-mark.png" alt="" width="540" height="467" class="footer-mark" />
+    <p>Strategic Communication Lab · Coaches · Counsel · Consultants</p>
+    <p class="footer-help">Questions about your gift? <a id="help-link" href="#">Email us</a></p>
+  </div>
+</footer>
+
+<!-- Cart drawer -->
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true">
+  <div class="drawer-head">
+    <h2 id="cart-title">Your selection</h2>
+    <button class="icon-btn" id="cart-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 5 5 6.4 10.6 12 5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6L19 6.4 17.6 5 12 10.6Z"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body" id="cart-body"></div>
+  <div class="drawer-foot" id="cart-foot"></div>
+</aside>
+
+<!-- Item detail dialog -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+  <div class="modal-card" id="modal-card"></div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
