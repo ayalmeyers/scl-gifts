@@ -83,6 +83,7 @@
       '<path d="' + path + '"/></g></svg>';
     return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
   }
+  function hasPhoto(p) { return !!(p.images && p.images.length); }
   function cover(p) { return (p.images && p.images[0]) || placeholder(p); }
   function imgTag(src, p, cls, eager) {
     return '<img class="' + (cls || "") + '" src="' + esc(src) + '" alt="' + esc(p.name) + '"' +
@@ -121,6 +122,13 @@
 
   function renderCartBadge() {
     var n = totalQty();
+    var bar = $("#nextbar");
+    if (bar) {
+      var onShop = !/^#\/(checkout|thanks)/.test(location.hash || "");
+      bar.hidden = !(n > 0 && onShop);
+      document.body.classList.toggle("has-nextbar", !bar.hidden);
+      $("#nextbar-count").textContent = n + " item" + (n === 1 ? "" : "s");
+    }
     var badge = $("#cart-count");
     badge.textContent = n;
     badge.classList.toggle("is-empty", n === 0);
@@ -149,12 +157,12 @@
     return (
       '<section class="hero">' +
         '<p class="eyebrow">' + esc(CFG.eyebrow || "") + "</p>" +
-        "<h1>" + esc(CFG.headline || "Choose your gift") + "</h1>" +
+        '<h1 class="sr-only">' + esc(CFG.campaignName || "SCL Gifts") + "</h1>" +
         '<p class="hero-intro">' + esc(CFG.intro || "") + "</p>" + limitNote +
         '<ol class="steps" aria-label="How it works">' +
           "<li><span>1</span>Choose your gifts</li>" +
-          "<li><span>2</span>Tell us where to send them</li>" +
-          "<li><span>3</span>We handle the rest</li>" +
+          "<li><span>2</span>Enter delivery details</li>" +
+          "<li><span>3</span>Submit your selection</li>" +
         "</ol>" +
       "</section>" +
       '<section class="catalog" aria-labelledby="catalog-title">' +
@@ -180,7 +188,7 @@
       return (
         '<article class="card" style="--i:' + i + '">' +
           '<a class="card-link" href="#/item/' + encodeURIComponent(p.id) + '" aria-label="' + esc(p.name) + ', view details">' +
-            '<div class="card-media">' + imgTag(cover(p), p, "", i < 4) +
+            '<div class="card-media' + (hasPhoto(p) ? " is-photo" : "") + '">' + imgTag(cover(p), p, "", i < 4) +
               (p.soldOut ? '<span class="flag">Unavailable</span>' : "") +
             "</div>" +
             '<div class="card-body">' +
@@ -209,7 +217,7 @@
       "</button>" +
       '<div class="modal-grid">' +
         '<div class="gallery">' +
-          '<div class="gallery-main">' + imgTag(imgs[0], p, "", true) + "</div>" +
+          '<div class="gallery-main' + (hasPhoto(p) ? " is-photo" : "") + '">' + imgTag(imgs[0], p, "", true) + "</div>" +
           (imgs.length > 1
             ? '<div class="thumbs">' + imgs.map(function (src, i) {
                 return '<button type="button" class="thumb' + (i === 0 ? " is-on" : "") + '" data-src="' + esc(src) + '" aria-label="Photo ' + (i + 1) + '">' + imgTag(src, p) + "</button>";
@@ -258,6 +266,7 @@
                 ? '<button class="btn" type="button" disabled>Selection limit reached</button>'
                 : '<button class="btn btn-primary" type="submit">Add to selection</button>') +
           "</div>" +
+          (p.soldOut || cap <= 0 ? "" : '<p class="add-hint">Adding an item does not send it. You will review your selection and submit your delivery details next.</p>') +
         "</form>" +
       "</div>";
 
@@ -320,8 +329,8 @@
       var qty = Math.max(1, parseInt($("#qty", modal).value, 10) || 1);
       if (addToCart(p.id, opts, note, qty)) {
         closeItem(true);
-        toast(p.name + " added to your selection");
         bumpBadge();
+        setTimeout(function () { openCart(p.name); }, 220);
       }
     });
   }
@@ -351,7 +360,7 @@
     var cap = CFG.maxQtyPerItem || 99;
     return (
       '<li class="line" data-key="' + esc(l.key) + '">' +
-        '<div class="line-media">' + imgTag(cover(p), p) + "</div>" +
+        '<div class="line-media' + (hasPhoto(p) ? " is-photo" : "") + '">' + imgTag(cover(p), p) + "</div>" +
         '<div class="line-info">' +
           '<p class="line-name">' + esc(p.name) + "</p>" +
           (meta ? '<p class="line-meta">' + esc(meta) + "</p>" : "") +
@@ -372,7 +381,7 @@
     );
   }
 
-  function renderCart() {
+  function renderCart(justAdded) {
     var body = $("#cart-body");
     var foot = $("#cart-foot");
     if (!cart.length) {
@@ -384,17 +393,30 @@
       foot.innerHTML = "";
       return;
     }
-    body.innerHTML = '<ul class="lines">' + cart.map(function (l) { return lineHTML(l, true); }).join("") + "</ul>";
+    body.innerHTML =
+      (justAdded
+        ? '<div class="added-note" role="status"><strong>' + esc(justAdded) + ' was added.</strong> Your selection has not been sent yet. When you are ready, continue to delivery details and submit.</div>'
+        : '<div class="pending-note">Your selection has not been submitted yet.</div>') +
+      '<ul class="lines">' + cart.map(function (l) { return lineHTML(l, true); }).join("") + "</ul>";
     var n = totalQty();
     foot.innerHTML =
-      '<p class="foot-count">' + n + " item" + (n === 1 ? "" : "s") + (CFG.maxItems ? " of " + CFG.maxItems : "") + "</p>" +
-      '<a class="btn btn-primary btn-block" href="#/checkout" data-to-checkout>Continue to delivery details</a>' +
+      progressHTML(1) +
+      '<p class="foot-count">' + n + " item" + (n === 1 ? "" : "s") + (CFG.maxItems ? " of " + CFG.maxItems : "") + " selected</p>" +
+      '<a class="btn btn-primary btn-block btn-lg" href="#/checkout" data-to-checkout>Continue to delivery details <span aria-hidden="true">→</span></a>' +
       '<button class="link-btn foot-more" type="button" data-close-cart>Keep browsing</button>';
   }
 
-  function openCart() {
+  function progressHTML(current) {
+    var steps = ["Choose gifts", "Delivery details", "Submit"];
+    return '<ol class="progress" aria-label="Progress">' + steps.map(function (t, i) {
+      var state = i < current ? "done" : i === current ? "current" : "todo";
+      return '<li class="is-' + state + '"' + (state === "current" ? ' aria-current="step"' : "") + '><span>' + (state === "done" ? "✓" : i + 1) + "</span>" + t + "</li>";
+    }).join("") + "</ol>";
+  }
+
+  function openCart(justAdded) {
     $("#toast").classList.remove("is-on");
-    renderCart();
+    renderCart(typeof justAdded === "string" ? justAdded : null);
     lastFocus = document.activeElement;
     var d = $("#cart");
     $("#scrim").hidden = false;
@@ -473,8 +495,9 @@
     return (
       '<section class="checkout">' +
         '<a class="back" href="#/"><span aria-hidden="true">←</span> Back to the collection</a>' +
+        progressHTML(1) +
         "<h1>Delivery details</h1>" +
-        '<p class="lede">Tell us who you are and where to send your gifts. We use this only to deliver your selection.</p>' +
+        '<p class="lede">Tell us who you are and where to send your gifts, then submit your selection at the bottom of this page. Nothing is sent until you submit.</p>' +
         '<div class="checkout-grid">' +
           '<form id="checkout-form" class="checkout-form" novalidate>' +
             '<fieldset class="panel"><legend><span class="num">1</span>About you</legend><div class="fields">' +
@@ -517,6 +540,7 @@
 
             '<div class="submit-row">' +
               '<button class="btn btn-primary btn-lg" type="submit" id="submit-btn">Submit my selection</button>' +
+              '<p class="submit-note">This is the final step. Your selection is sent to SCL when you submit.</p>' +
               '<p class="fine">By submitting, you share these details with Strategic Communication Lab solely to deliver your gift.</p>' +
               '<div class="form-alert" id="form-alert" role="alert" hidden></div>' +
             "</div>" +
@@ -864,7 +888,7 @@
     var last = load(LAST_KEY, null, sessionStorage);
     if (!last) return null;
     return (
-      '<section class="thanks">' +
+      '<section class="thanks">' + progressHTML(3) +
         '<div class="check-mark" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg></div>' +
         "<h1>Thank you" + (last.name ? ", " + esc(last.name) : "") + ".</h1>" +
         '<p class="lede">Your selection is in. We will be in touch at <strong>' + esc(last.email) + "</strong> if we need anything.</p>" +
@@ -985,7 +1009,7 @@
   if (CFG.contactEmail) help.href = "mailto:" + CFG.contactEmail + "?subject=" + encodeURIComponent("SCL Gifts question");
   else help.parentNode.hidden = true;
 
-  window.addEventListener("hashchange", route);
+  window.addEventListener("hashchange", function () { route(); renderCartBadge(); });
   window.addEventListener("storage", function (e) {
     if (e.key === CART_KEY) { cart = load(CART_KEY, []).filter(function (l) { return BY_ID[l.id]; }); renderCartBadge(); }
   });

@@ -13,7 +13,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
 <link rel="stylesheet" href="fonts/fonts.css" />
-<link rel="stylesheet" href="css/store.css?v=3" />
+<link rel="stylesheet" href="css/store.css?v=4" />
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -21,7 +21,7 @@
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="#/" aria-label="SCL Gifts home">
-      <img src="assets/logo-lockup.png" alt="Strategic Communication Lab" width="963" height="236" />
+      <img src="assets/scl-logo.png" alt="SCL, Strategic Communication Lab" width="270" height="120" />
     </a>
     <span class="brand-tag" id="campaign-tag"></span>
     <button class="cart-btn" id="cart-btn" type="button" aria-haspopup="dialog" aria-controls="cart">
@@ -38,7 +38,7 @@
 
 <footer class="footer">
   <div class="footer-inner">
-    <img src="assets/logo-mark.png" alt="" width="540" height="467" class="footer-mark" />
+    <img src="assets/scl-mark.png" alt="" width="106" height="96" class="footer-mark" />
     <p>Strategic Communication Lab · Coaches · Counsel · Consultants</p>
     <p class="footer-help">Questions about your gift? <a id="help-link" href="#">Email us</a></p>
   </div>
@@ -62,10 +62,17 @@
   <div class="modal-card" id="modal-card"></div>
 </div>
 
+<div class="nextbar" id="nextbar" hidden>
+  <div class="nextbar-inner">
+    <p class="nextbar-text"><strong id="nextbar-count">0 items</strong> in your selection <span class="nextbar-note">Not yet submitted</span></p>
+    <a class="btn btn-primary" href="#/checkout">Review &amp; submit <span aria-hidden="true">→</span></a>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/config.js?v=3"></script>
-<script src="js/products.js?v=3"></script>
-<script src="js/app.js?v=3"></script>
+<script src="js/config.js?v=4"></script>
+<script src="js/products.js?v=4"></script>
+<script src="js/app.js?v=4"></script>
 </body>
 </html>

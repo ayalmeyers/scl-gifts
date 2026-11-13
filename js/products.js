@@ -17,9 +17,56 @@
                    { label, placeholder, maxLength, required }
      soldOut       optional; true hides the Add button
 
-   NOTE: the items below are SAMPLES so the store can be reviewed.
-   Replace them with the real gifts. */
+   The first five items are real SCL apparel. Items after the SAMPLE
+   marker are placeholders. */
 window.SCL_GIFTS_PRODUCTS = [
+  {
+    id: "eddie-bauer-womens-black-fleece-vest",
+    name: "Eddie Bauer Womens Black Fleece Vest",
+    category: "Apparel",
+    blurb: "Full-zip fleece vest with the SCL mark.",
+    description: "A warm, packable fleece vest with zip hand pockets, embroidered with the SCL logo at the chest.",
+    images: ["images/products/eddie-bauer-womens-black-fleece-vest.jpg"],
+    options: [{ name: "Size", values: ["XS", "S", "M", "L", "XL", "XXL"] }]
+  },
+  {
+    id: "eddie-bauer-womens-gray-fleece-vest",
+    name: "Eddie Bauer Womens Gray Fleece Vest",
+    category: "Apparel",
+    blurb: "Full-zip fleece vest with the SCL mark.",
+    description: "A warm, packable fleece vest with zip hand pockets, embroidered with the SCL logo at the chest.",
+    images: ["images/products/eddie-bauer-womens-gray-fleece-vest.jpg"],
+    options: [{ name: "Size", values: ["XS", "S", "M", "L", "XL", "XXL"] }]
+  },
+  {
+    id: "nike-mens-black-grey-dri-fit-stretch-half-zip",
+    name: "Nike Mens Black/Grey Dri-FIT Stretch 1/2-Zip",
+    category: "Apparel",
+    blurb: "Lightweight Dri-FIT half-zip with the SCL mark.",
+    description: "A slim, stretch Dri-FIT pullover with a contrast collar, embroidered with the SCL logo at the chest.",
+    images: ["images/products/nike-mens-black-grey-dri-fit-stretch-half-zip.jpg"],
+    options: [{ name: "Size", values: ["S", "M", "L", "XL", "XXL", "3XL"] }]
+  },
+  {
+    id: "the-north-face-womens-dark-grey-heather-skyline-full-zip",
+    name: "The North Face Womens Dark Grey Heather Skyline Full-Zip Fleece Jacket",
+    category: "Apparel",
+    blurb: "Soft full-zip fleece jacket with the SCL mark.",
+    description: "A fitted full-zip fleece jacket with zip hand pockets, embroidered with the SCL logo at the chest.",
+    images: ["images/products/the-north-face-womens-dark-grey-heather-skyline-full-zip.jpg"],
+    options: [{ name: "Size", values: ["XS", "S", "M", "L", "XL", "XXL"] }]
+  },
+  {
+    id: "the-north-face-womens-black-skyline-full-zip",
+    name: "The North Face Womens Black Skyline Full-Zip Fleece Jacket",
+    category: "Apparel",
+    blurb: "Soft full-zip fleece jacket with the SCL mark.",
+    description: "A fitted full-zip fleece jacket with zip hand pockets, embroidered with the SCL logo at the chest.",
+    images: ["images/products/the-north-face-womens-black-skyline-full-zip.jpg"],
+    options: [{ name: "Size", values: ["XS", "S", "M", "L", "XL", "XXL"] }]
+  },
+
+  /* ---- SAMPLE items below: placeholders until real gifts are added ---- */
   {
     id: "quarter-zip",
     name: "Performance Quarter-Zip",

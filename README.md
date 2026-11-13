@@ -8,7 +8,7 @@ Live: https://gifts.scl.us.com (once DNS is set; until then https://ayalmeyers.g
 
 ```
 index.html          page shell
-css/store.css       styles (SCL navy #22428f, sky #4395d1, EB Garamond + Inter)
+css/store.css       styles (SCL navy #22428f, sky #4395d1, EB Garamond throughout)
 js/config.js        campaign copy, order endpoint, limits  <- edit this
 js/products.js      the catalog                            <- edit this
 js/app.js           storefront logic
