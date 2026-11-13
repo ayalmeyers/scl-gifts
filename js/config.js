@@ -11,12 +11,12 @@ window.SCL_GIFTS_CONFIG = {
     "Thank you for a year of meaningful work together. Choose the gifts you would enjoy most, tell us where to send them, and we will take care of the rest.",
 
   // Where submitted orders go. Each order is emailed (through FormSubmit)
-  // to notifyEmail, copied to ccEmails. The "SCL Gifts → Excel" Power
-  // Automate flow watches notifyEmail's inbox and writes every order to
+  // to notifyEmail, copied to ccEmails. The "SCL Gifts - Orders to Excel"
+  // Power Automate flow watches ameyers@scl.us.com and writes every order to
   // the GiftOrders table in "SCL Gift Orders.xlsx" (SharePoint ·
   // OPERATIONS · General/Gifts), one row per item.
-  notifyEmail: "ameyers@scl.us.com",
-  ccEmails: "admin@scl.us.com",
+  notifyEmail: "admin@scl.us.com",
+  ccEmails: "ameyers@scl.us.com",
 
   // Optional direct endpoint (not used): a Power Automate HTTP trigger URL.
   orderEndpoint: "",
