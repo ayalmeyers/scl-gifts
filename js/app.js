@@ -773,6 +773,7 @@
       _template: "table",
       _captcha: "false",
       _replyto: c.email,
+      _cc: CFG.ccEmails || undefined,
       "Order ID": order.orderId,
       "Submitted": new Date(order.submittedAt).toLocaleString("en-US", { timeZone: "America/New_York" }) + " ET",
       "Campaign": order.campaign,
@@ -791,7 +792,10 @@
       "Date flexible": d.flexible ? "Yes" : "No",
       "Delivery instructions": d.instructions,
       "Notes": order.notes,
-      "Invite ref": order.inviteRef
+      "Invite ref": order.inviteRef,
+      // Machine-readable copy of the Excel rows. The Power Automate flow
+      // decodes the text between the markers; do not edit.
+      "Data (for Excel, do not edit)": "SCLGIFT::" + b64(JSON.stringify(order.rows)) + "::END"
     };
     return timeoutFetch("https://formsubmit.co/ajax/" + encodeURIComponent(CFG.notifyEmail), {
       method: "POST",
@@ -799,6 +803,12 @@
       body: JSON.stringify(payload)
     }).then(function (res) { return res.json().then(function (j) { return res.ok && String(j.success) === "true"; }); })
       .catch(function () { return false; });
+  }
+
+  function b64(str) {
+    var bytes = new TextEncoder().encode(str), bin = "";
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
   }
 
   function mailtoFallback(order) {

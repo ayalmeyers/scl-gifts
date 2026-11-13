@@ -10,15 +10,16 @@ window.SCL_GIFTS_CONFIG = {
   intro:
     "Thank you for a year of meaningful work together. Choose the gifts you would enjoy most, tell us where to send them, and we will take care of the rest.",
 
-  // Where submitted orders go. Paste the Power Automate
-  // "When an HTTP request is received" URL here. Each order is written
-  // to the GiftOrders table in Excel, one row per item.
-  orderEndpoint: "",
+  // Where submitted orders go. Each order is emailed (through FormSubmit)
+  // to notifyEmail, copied to ccEmails. The "SCL Gifts → Excel" Power
+  // Automate flow watches notifyEmail's inbox and writes every order to
+  // the GiftOrders table in "SCL Gift Orders.xlsx" (SharePoint ·
+  // OPERATIONS · General/Gifts), one row per item.
+  notifyEmail: "ameyers@scl.us.com",
+  ccEmails: "admin@scl.us.com",
 
-  // Backup + notification channel. Every order is also emailed here
-  // through FormSubmit, so nothing is lost if the Excel flow is down.
-  // Leave "" to turn email copies off.
-  notifyEmail: "admin@scl.us.com",
+  // Optional direct endpoint (not used): a Power Automate HTTP trigger URL.
+  orderEndpoint: "",
 
   // Shown to guests who need help.
   contactEmail: "admin@scl.us.com",
