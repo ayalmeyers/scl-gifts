@@ -30,5 +30,12 @@ window.SCL_GIFTS_CONFIG = {
   maxQtyPerItem: 3,
 
   // Earliest preferred delivery date offered, in days from today.
-  minLeadDays: 7
+  minLeadDays: 7,
+
+  // Logo thread on embroidered garments. The SCL blue is embroidered dense
+  // and solid. Dark garments offer the choices below; light garments always
+  // get the first one. Colors whose name matches darkColorPattern count as dark.
+  threadOptions: ["SCL blue", "White"],
+  threadNote: "The SCL logo is embroidered in SCL blue. On dark garments you can choose white thread instead.",
+  darkColorPattern: "black|navy|charcoal|anthracite|dark|brown|cinder|graphite|olive|shady blue|asphalt|smoke|maritime|atlantic|grey heather"
 };

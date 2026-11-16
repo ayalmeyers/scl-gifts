@@ -206,6 +206,32 @@
   /* ---------- item dialog ---------- */
   var lastFocus = null;
 
+  /* ---------- logo thread (embroidered garments) ----------
+     The SCL logo is embroidered with a dense, solid blue fill. On dark
+     garments the guest may choose white thread instead. */
+  function isDarkColor(name) {
+    try { return new RegExp(CFG.darkColorPattern || "$^", "i").test(name || ""); }
+    catch (e) { return false; }
+  }
+  function threadHTML(p) {
+    if (!p.threadChoice) return "";
+    var vals = CFG.threadOptions || ["SCL blue", "White"];
+    var gid = "opt-thread";
+    return (
+      '<fieldset class="opt opt-thread" data-opt="Logo thread" data-thread hidden>' +
+        '<legend>Logo thread <span class="opt-picked" id="' + gid + '-picked"></span></legend>' +
+        '<p class="opt-note">' + esc(CFG.threadNote || "") + "</p>" +
+        '<div class="swatches">' +
+          vals.map(function (v, vi) {
+            var vid = gid + "-" + vi;
+            return '<input type="radio" id="' + vid + '" name="' + gid + '" value="' + esc(v) + '"' + (vi === 0 ? " checked" : "") + '>' +
+                   '<label for="' + vid + '">' + esc(v) + "</label>";
+          }).join("") +
+        "</div>" +
+      "</fieldset>"
+    );
+  }
+
   function openItem(id) {
     var p = BY_ID[id];
     if (!p) { location.hash = "#/"; return; }
@@ -245,6 +271,7 @@
               "</fieldset>"
             );
           }).join("") +
+          threadHTML(p) +
           (p.personalize
             ? '<div class="field">' +
                 '<label for="personal">' + esc(p.personalize.label) + (p.personalize.required ? "" : ' <span class="optional">optional</span>') + "</label>" +
@@ -293,6 +320,28 @@
         fs.querySelector(".field-err").hidden = true;
       });
     });
+    var colorFs = $('.opt[data-opt="Color"]', modal);
+    var threadFs = $("[data-thread]", modal);
+    function syncColor() {
+      var picked = colorFs && colorFs.querySelector("input:checked");
+      var val = picked ? picked.value : "";
+      if (p.colorImages && p.colorImages[val]) {
+        var main = $(".gallery-main img", modal);
+        if (main) main.src = p.colorImages[val];
+        $$(".thumb", modal).forEach(function (t) { t.classList.toggle("is-on", t.getAttribute("data-src") === p.colorImages[val]); });
+      }
+      if (threadFs) {
+        var dark = isDarkColor(val);
+        threadFs.hidden = !dark;
+        if (!dark) {
+          var first = threadFs.querySelector("input");
+          if (first) first.checked = true;
+          threadFs.querySelector(".opt-picked").textContent = "";
+        }
+      }
+    }
+    if (colorFs) colorFs.addEventListener("change", syncColor);
+    syncColor();
     $$("[data-step]", modal).forEach(function (b) {
       b.addEventListener("click", function () {
         var q = $("#qty", modal);
@@ -305,6 +354,7 @@
       var opts = {};
       var ok = true;
       $$(".opt", modal).forEach(function (fs) {
+        if (fs.hidden) return;
         var picked = fs.querySelector("input:checked");
         if (!picked) {
           ok = false;
@@ -314,6 +364,11 @@
           opts[fs.getAttribute("data-opt")] = picked.value;
         }
       });
+      if (p.threadChoice) {
+        var tFs = $("[data-thread]", modal);
+        var tPick = tFs && !tFs.hidden && tFs.querySelector("input:checked");
+        opts["Logo thread"] = tPick ? tPick.value : ((CFG.threadOptions || ["SCL blue"])[0]);
+      }
       var personal = $("#personal", modal);
       var note = personal ? personal.value.trim() : "";
       if (personal && personal.required && !note) {

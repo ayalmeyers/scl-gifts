@@ -18,6 +18,18 @@ assets/, fonts/     SCL logo, favicons, self-hosted fonts
 
 No build step. Plain HTML/CSS/JS served by GitHub Pages.
 
+## Catalog
+
+`js/products.js` holds 40 gifts: the 5 SCL apparel items that were already here (local photos) and the 35 items from the SCL Gifting 2026 store (scl-gifting-2026.checkoutstores.com). Every color of every store item is listed, with sizes where the item has them. Prices are not stored anywhere. Store items load their photos from that store's image host, one photo per color, and the photo changes when a guest picks a color. If the store is closed later, download the photos into `images/products/` and point `images` and `colorImages` at them.
+
+The six placeholder items that used to follow the sample marker (quarter-zip, tumbler, journal, weekender, candle, charger) were removed.
+
+## Logo thread (embroidered garments)
+
+The SCL logo is embroidered in SCL blue, and the blue in the SCL letters must be filled in dense and solid. Dark garments also offer white thread. Set `threadChoice: true` on a garment and the form shows "Logo thread" once a dark color is picked (dark colors match `darkColorPattern` in `js/config.js`). The choice lands in `Other Options` in Excel. Light garments always record "SCL blue".
+
+Open decision: Farhad has not yet signed off on a non-gradient logo file for embroidery. Send the vendor the approved flat-color file before the first order.
+
 ## Adding gifts and photos
 
 1. Put photos in `images/products/` (JPG or WebP, about 1200 px on the long edge, 4:5 portrait crops look best).
