@@ -317,7 +317,8 @@
       fs.addEventListener("change", function (e) {
         fs.querySelector(".opt-picked").textContent = "· " + e.target.value;
         fs.classList.remove("has-err");
-        fs.querySelector(".field-err").hidden = true;
+        var fe = fs.querySelector(".field-err");
+        if (fe) fe.hidden = true;
       });
     });
     var colorFs = $('.opt[data-opt="Color"]', modal);
