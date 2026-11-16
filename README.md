@@ -20,7 +20,7 @@ No build step. Plain HTML/CSS/JS served by GitHub Pages.
 
 ## Catalog
 
-`js/products.js` holds 40 gifts: the 5 SCL apparel items that were already here (local photos) and the 35 items from the SCL Gifting 2026 store (scl-gifting-2026.checkoutstores.com). Every color of every store item is listed, with sizes where the item has them. Prices are not stored anywhere. Store items load their photos from that store's image host, one photo per color, and the photo changes when a guest picks a color. If the store is closed later, download the photos into `images/products/` and point `images` and `colorImages` at them.
+`js/products.js` holds 40 gifts: the 5 SCL apparel items that were already here (local photos) and the 35 items from the SCL Gifting 2026 store (scl-gifting-2026.checkoutstores.com). Every color of every store item is listed, with sizes where the item has them. Prices are not stored anywhere. Every store item has one photo per color, stored in `images/products/` (named by the store's file key, JPG, 800 px), and the photo changes when a guest picks a color. The photos live in this repo, so the site does not depend on the store staying open.
 
 The six placeholder items that used to follow the sample marker (quarter-zip, tumbler, journal, weekender, candle, charger) were removed.
 

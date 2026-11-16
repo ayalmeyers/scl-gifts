@@ -25,8 +25,7 @@
      soldOut       optional; true hides the Add button
 */
 (function () {
-  var STORE = "https://app.fulfillengine.com/images/da66b7cf-2899-4ee4-8261-8787719d048b/scl-gifting-2026/da66b7cf-2899-4ee4-8261-8787719d048b-";
-  function img(f) { return STORE + f + "-product.png"; }
+  function img(f) { return "images/products/" + f + ".jpg"; }
 
   var S5 = ["S", "M", "L", "XL", "XXL"];
   var S6 = ["S", "M", "L", "XL", "XXL", "3XL"];
