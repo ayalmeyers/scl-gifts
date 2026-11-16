@@ -187,7 +187,7 @@
     return list.map(function (p, i) {
       return (
         '<article class="card" style="--i:' + i + '">' +
-          '<a class="card-link" href="#/item/' + encodeURIComponent(p.id) + '" aria-label="' + esc(p.name) + ', view details">' +
+          '<a class="card-link" href="#/item/' + encodeURIComponent(p.id) + '">' +
             '<div class="card-media' + (hasPhoto(p) ? " is-photo" : "") + '">' + imgTag(cover(p), p, "", i < 4) +
               (p.soldOut ? '<span class="flag">Unavailable</span>' : "") +
             "</div>" +
@@ -328,7 +328,10 @@
       var val = picked ? picked.value : "";
       if (p.colorImages && p.colorImages[val]) {
         var main = $(".gallery-main img", modal);
-        if (main) main.src = p.colorImages[val];
+        if (main) {
+          main.onerror = function () { this.onerror = null; this.src = placeholder(p); };
+          main.src = p.colorImages[val];
+        }
         $$(".thumb", modal).forEach(function (t) { t.classList.toggle("is-on", t.getAttribute("data-src") === p.colorImages[val]); });
       }
       if (threadFs) {
